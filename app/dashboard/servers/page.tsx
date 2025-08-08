@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Server, Settings, Users, ExternalLink } from "lucide-react";
+import { Server, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 const DISCORD_BOT_INVITE_URL = `https://discord.com/api/oauth2/authorize?client_id=${process.env.DISCORD_CLIENT_ID}&permissions=8&scope=bot%20applications.commands`;

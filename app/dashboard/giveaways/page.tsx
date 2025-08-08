@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Gift, Users, Clock, Trophy, Calendar, Award } from "lucide-react";
+import { Gift, Users, Trophy, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default async function GiveawaysPage() {

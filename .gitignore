@@ -11,3 +11,6 @@ node_modules/
 !SECURITY.md
 package-lock.json
 .bot/
+!DATABASE.md
+.next/
+*.tsbuildinfo

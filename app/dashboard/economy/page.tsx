@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DollarSign, ShoppingCart, TrendingUp, Package, Dice1, CreditCard, DollarSign as Coins, Trophy } from "lucide-react";
+import { DollarSign, TrendingUp, Package, Dice1 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default async function EconomyPage() {

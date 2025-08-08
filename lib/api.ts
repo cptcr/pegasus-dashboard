@@ -13,9 +13,9 @@ export class BotAPI {
 
   private async fetch(endpoint: string, options: FetchOptions = {}) {
     const url = `${this.baseURL}${endpoint}`;
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      ...options.headers,
+      ...(options.headers as Record<string, string> || {}),
     };
 
     if (this.token && !endpoint.includes('/health')) {

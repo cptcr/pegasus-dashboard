@@ -1,6 +1,6 @@
 // Database type exports from Drizzle schemas
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
-import * as schema from '@/lib/db/schemas';
+import * as schema from '@/lib/db';
 
 // Guild types
 export type Guild = InferSelectModel<typeof schema.guilds>;
