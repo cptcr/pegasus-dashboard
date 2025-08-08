@@ -7,3 +7,4 @@ export * from './tickets';
 export * from './xp';
 export * from './economy';
 export * from './security';
+export * from './auth';

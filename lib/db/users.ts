@@ -10,6 +10,11 @@ export const users = pgTable('users', {
   bot: boolean('bot').default(false).notNull(),
   rankCardData: text('rank_card_data'),
   preferredLocale: varchar('preferred_locale', { length: 5 }).default('en'),
+  // NextAuth required fields
+  name: varchar('name', { length: 255 }),
+  email: varchar('email', { length: 255 }),
+  emailVerified: timestamp('emailVerified', { mode: 'date' }),
+  image: varchar('image', { length: 255 }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
