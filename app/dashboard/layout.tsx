@@ -1,6 +1,5 @@
-import { DashboardSidebar } from "@/components/dashboard/sidebar";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@/lib/auth-config";
 import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
@@ -14,14 +13,6 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
-  return (
-    <div className="flex h-screen bg-background">
-      <DashboardSidebar />
-      <main className="flex-1 overflow-y-auto">
-        <div className="container mx-auto p-6">
-          {children}
-        </div>
-      </main>
-    </div>
-  );
+  // No sidebar here - it will be added in server-specific pages
+  return <>{children}</>;
 }
