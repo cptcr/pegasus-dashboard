@@ -16,11 +16,13 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
-  Gift
+  Gift,
+  Menu,
+  X
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const sidebarItems = [
   {
@@ -78,12 +80,50 @@ const sidebarItems = [
 export function DashboardSidebar() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
+  // Close mobile menu on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileOpen(false);
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, []);
 
   return (
-    <div className={cn(
-      "flex flex-col h-full bg-card border-r transition-all duration-300",
-      collapsed ? "w-16" : "w-64"
-    )}>
+    <>
+      {/* Mobile Menu Button */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="fixed top-4 left-4 z-50 md:hidden"
+        onClick={() => setMobileOpen(!mobileOpen)}
+      >
+        {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+      </Button>
+
+      {/* Mobile Overlay */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div className={cn(
+        "fixed md:relative flex flex-col h-full bg-card border-r transition-all duration-300 z-40",
+        collapsed ? "w-16" : "w-64",
+        mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+      )}>
       <div className="p-4 border-b">
         <div className="flex items-center justify-between">
           <div className={cn(
@@ -113,6 +153,7 @@ export function DashboardSidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={() => setMobileOpen(false)}
               className={cn(
                 "flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors",
                 "hover:bg-accent hover:text-accent-foreground",
@@ -141,6 +182,7 @@ export function DashboardSidebar() {
           {!collapsed && <span>Logout</span>}
         </Button>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
