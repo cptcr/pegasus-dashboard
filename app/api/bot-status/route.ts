@@ -3,10 +3,10 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   try {
     // Try to fetch from the bot API if configured
-    if (process.env.API_URL && process.env.BOT_API_TOKEN) {
-      const response = await fetch(`${process.env.API_URL}/status`, {
+    if (process.env['API_URL'] && process.env['BOT_API_TOKEN']) {
+      const response = await fetch(`${process.env['API_URL']}/status`, {
         headers: {
-          'Authorization': `Bearer ${process.env.BOT_API_TOKEN}`,
+          'Authorization': `Bearer ${process.env['BOT_API_TOKEN']}`,
         },
       });
       
