@@ -1,15 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { 
-  Shield, DollarSign, TrendingUp, Ticket, Gift, MessageSquare, 
-  Settings, Users, Zap, Search, ChevronRight, Hash, Star,
-  Gamepad2, Lock, AlertTriangle, Award, ShoppingBag, Dice1,
-  Calendar, HelpCircle, Sparkles, LucideIcon
+  Shield, DollarSign, TrendingUp, Ticket, Gift, 
+  Settings, Zap, Search, Hash, Star,
+  Gamepad2, AlertTriangle, Dice1,
+  HelpCircle, Sparkles, LucideIcon
 } from 'lucide-react';
 
 interface Command {

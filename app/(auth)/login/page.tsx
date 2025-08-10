@@ -2,21 +2,42 @@
 
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { Shield, Sparkles } from "lucide-react";
+import { Shield, Sparkles, AlertCircle } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const searchParams = useSearchParams();
 
-  const handleSignIn = async () => {
-    setIsLoading(true);
-    try {
-      await signIn("discord", { callbackUrl: "/dashboard" });
-    } catch (error) {
-      console.error("Sign in error:", error);
-      setIsLoading(false);
+  useEffect(() => {
+    const errorParam = searchParams.get("error");
+    if (errorParam) {
+      switch (errorParam) {
+        case "OAuthCallback":
+          setError("Authentication failed. Please ensure cookies are enabled and try again.");
+          break;
+        case "OAuthSignin":
+          setError("Error starting sign in. Please try again.");
+          break;
+        case "OAuthAccountNotLinked":
+          setError("This Discord account is already linked to another user.");
+          break;
+        case "Configuration":
+          setError("Authentication is not properly configured. Please contact support.");
+          break;
+        default:
+          setError("An error occurred during authentication. Please try again.");
+      }
     }
+  }, [searchParams]);
+
+  const handleSignIn = () => {
+    setIsLoading(true);
+    // Use standard NextAuth signIn with explicit callback URL
+    signIn("discord", { callbackUrl: "/dashboard" });
   };
 
   return (
@@ -55,6 +76,15 @@ export default function LoginPage() {
           <p className="text-center text-gray-400 mb-8">
             Sign in to access the Pegasus Bot Dashboard
           </p>
+
+          {error && (
+            <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/20">
+              <div className="flex items-start gap-3">
+                <AlertCircle className="h-5 w-5 text-red-400 mt-0.5 flex-shrink-0" />
+                <p className="text-sm text-red-400">{error}</p>
+              </div>
+            </div>
+          )}
           
           <Button
             onClick={handleSignIn}
@@ -65,7 +95,7 @@ export default function LoginPage() {
             {isLoading ? (
               <>
                 <div className="mr-2 h-5 w-5 animate-spin rounded-full border-2 border-white/20 border-t-white" />
-                Connecting...
+                Redirecting to Discord...
               </>
             ) : (
               <>
@@ -78,8 +108,8 @@ export default function LoginPage() {
           </Button>
           
           <div className="text-center text-sm text-gray-400">
-            <p className="mb-2">Admin access only</p>
-            <p className="text-xs">You must have administrator permissions in at least one Discord server</p>
+            <p className="mb-2">Login with your Discord account</p>
+            <p className="text-xs">Manage servers where you have permissions</p>
           </div>
         </div>
         
