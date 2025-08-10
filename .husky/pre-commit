@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run lint-staged for incremental linting
+npx lint-staged
+
+# Type check
+echo "Running TypeScript type check..."
+npm run type-check
+
+# Check for console.log statements
+echo "Checking for console.log statements..."
+if grep -r "console\.log" --include="*.ts" --include="*.tsx" --exclude-dir=node_modules --exclude-dir=.next --exclude-dir=scripts .; then
+  echo "❌ Error: Found console.log statements in production code"
+  exit 1
+fi
+
+# Check for any type usage
+echo "Checking for 'any' type usage..."
+if grep -r ": any" --include="*.ts" --include="*.tsx" --exclude-dir=node_modules --exclude-dir=.next --exclude="*.d.ts" .; then
+  echo "❌ Error: Found 'any' type usage in TypeScript files"
+  exit 1
+fi
+
+echo "✅ Pre-commit checks passed!"
